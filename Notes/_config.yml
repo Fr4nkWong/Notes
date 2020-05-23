@@ -101,5 +101,5 @@ theme: Wikitten
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: http://github.com/fr4nkwong/fr4nkwong.github.io.git
+  repository: git@github.com:Fr4nkWong/Fr4nkWong.github.io.git
   branch: master
