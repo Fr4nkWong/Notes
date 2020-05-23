@@ -1,8 +1,8 @@
 ---
-title: Hexo搭博客
+title: github pages搭博客
 date: 2017-01-01
-categories:
-	- Git
+tags:
+	- git
 ---
 ## 前言
 Hexo是一款快速、简单、并且强大的博客博客模板框架 - 基于nodejs。特点:基于nodejs、使用Markdown书写文章、无需数据库、可以使用GitHub Pages发布。

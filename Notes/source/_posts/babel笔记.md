@@ -1,7 +1,9 @@
-```
-title: babel笔记
-birth: 2019/05/10
-```
+---
+title: webpack笔记
+date: 2019-05-10
+categories:
+- front-end
+---
 
 ## 前言
 

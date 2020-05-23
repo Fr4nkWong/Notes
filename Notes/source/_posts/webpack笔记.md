@@ -1,3 +1,10 @@
+---
+title: webpack笔记
+date: 2019-03-20
+categories:
+- front-end
+---
+
 # What
 将前端项目代码根据模块间引用关系按指定规则关系进行打包的工具。
 # Why

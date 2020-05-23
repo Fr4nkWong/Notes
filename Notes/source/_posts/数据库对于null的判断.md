@@ -2,8 +2,9 @@
 title: 数据库对于null的判断
 date: 2017-07-17
 categories:
-	- Database
+	- database
 ---
+
 ## 前言
 在实训培训Oracle数据库操作时，遇到了这样一个题目：在公司里找到和Frank拿一样工资一样奖金的人并显示他们的名字、工资、奖金。
 我理所当然地写下: 
