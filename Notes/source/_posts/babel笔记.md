@@ -1,5 +1,5 @@
 ---
-title: webpack笔记
+title: babel笔记
 date: 2019-05-10
 categories:
 - front-end
