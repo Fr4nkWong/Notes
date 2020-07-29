@@ -1,2 +1,2 @@
 # Notes
-记录工作、学习、思考。
+record thinking.
