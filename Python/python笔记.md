@@ -6,15 +6,33 @@
 - 次版本号：做了向下兼容的功能性新增.
 - 修订号：做了向下兼容的问题修正.
 
-python是动态类型/解释型语言，默认靠Cpython解释器实现.
+python是动态类型/解释性语言，默认靠Cpython解释器实现.
 
 python解释器执行流程：`(.py)源文件` ==> `(Cpython)字节码` ==> `机器码`
 
 # 基础
 
 - 语言角度：词法+语法+语义
+  - 词法 `lexical`：https://docs.python.org/zh-cn/3.8/reference/lexical_analysis.html#lexical-analysis
+    - 行结构
+    - 形符：Python程序由一个<u>解析器</u>读取. 输入到解析器的是一个由<u>词法分析器</u>所生成的<u>形符</u>流.
+      - NEWLINE, INDENT, DEDENT
+      - 标识符 = 关键字 + 保留的标识符
+      - 字面值：用于表示一些内置类型的常量.
+      - 运算符
+      - 分隔符
+  - 语法 `syntax`：https://docs.python.org/zh-cn/3.8/reference/expressions.html#expressions
+    - 表达式
+      - 原子：表达式的最基本构成元素.
+        - 名称：作为原子出现的标识符.
+        - 列表、集合和字典的推导式
+      - 原型：原型代表编程语言中最紧密绑定的操作.
+        - 属性引用
+        - 抽取
+        - 切片
+    - 简单语句、符合语句
+  - 语义：`context`上下文
 - 实现角度：数据模型+执行模型
-
 - (语言参考) https://docs.python.org/zh-cn/3.8/reference/index.html
 
 ## 数据模型
@@ -195,24 +213,25 @@ a is b	# True
 
 #### 列表
 
-- 列表属于mutable。
-- python内置的有序集合，可随时增加、删除元素，元素类型可以不同。
-- 所有分片操作都会返回新列表，属于深拷贝。
-- 查找和插入随着元素的增加而增加。
-- 占用空间小，内存浪费少。
+- 列表属于mutable.
+- python内置的有序集合，可随时增加、删除元素，元素类型可以不同.
+- 所有分片操作都会返回新列表，属于深拷贝.
+- 查找和插入随着元素的增加而增加.
+- 占用空间小，内存浪费少.
+- 列表只支持  `+` 操作符运算，注意与`numpy`中的矢量运算区分.
 
 #### 元组
 
-- 元组属于immutable，本质上是元素的指向不变。
+- 元组属于immutable，本质上是元素的指向不变.
 
-- python内置的有序集合，一旦初始化就不能修改元素，所以代码安全。
+- python内置的有序集合，一旦初始化就不能修改元素，所以代码安全.
 
 #### 字典
 
 - **key必须是immutable。**
 - 在其他语言中被称为map(即映射)，使用key-value存储，查找速度极快。
 - 一个key只能对应一个value，多次对key赋值，后一次赋值会覆盖前一次赋值。
-- 可通过`in`或`get()`判断key是否存在，避免key不存在而报错。
+- 可通过 `in` 或 `get()` 判断key是否存在，避免key不存在而报错。
 - 查找和插入操作速度极快，不会受到key的数量影响。
 - 需要占用大量内存，内存浪费多。
 
@@ -221,7 +240,7 @@ a is b	# True
 - python中，集合是由不重复且不可变对象组成的无序且有限的集合。
 
 ```python
-# 字符串
+# 字符串 string
 #!/usr/bin/env python3		告诉Linux系统，这是一个python可执行程序
 # -*- coding: utf-8 -*-		告诉python解释器，按照utf-8源码读取源代码，同时还必须保证编辑器使用UTF-8 without BOM
 print('\u4e2d\u6587') 			# '中文'
@@ -241,15 +260,21 @@ f'Hello, {name}, 成绩提升了 {percent}%'
 template_str = 'Hello, $name, 成绩提升了 $percent%'
 print(Template(template_str).substitute(name=name, percent=percent))
 
-# 元组
+# 元组 tuple
 tuple1 = (1) 	# 初始化数字1
 tuple2 = (1,) # 初始化元组
 tuple3 = () 	# 元组
 
-# 字典
+# 列表 list
+l1 = [1,2,3]
+l2 = [1,2,3]
+l1 + l2 # [1,2,3,1,2,3]
+l1 * l2	# TypeError
+
+# 字典 dic
 dict1 = {'wzy':24, 'frank':18}
 
-# 集合
+# 集合 set
 s = set([1,2,3,3]) # {1,2,3}
 
 # 切片 slice
@@ -260,6 +285,46 @@ print(list[:3])	 	 #	[1,2,3]	0可省略
 print(list[-3:])	 #	[7,8,9]
 print(list[:])		 # 	[1,2,3,4,5,6,7,8,9]
 print(list[:8:2])	 # 	[1,3,5,7]	索引[0,7)内，每2个元素取一个
+```
+
+## 执行模型
+
+https://docs.python.org/zh-cn/3/reference/executionmodel.html
+
+- 程序结构
+  - python程序是由代码块构成的. 
+  - `代码块` 是被作为一个单元来执行的一段python程序文本.
+    - 模块
+    - 函数体
+    - 类定义
+    - 交互式输入的每条命令
+  - 代码块在执行帧中被执行. 一个帧会包含某些管理信息（用于调试）并决定代码块执行完成后应前往何处以及如何继续执行.
+- 命名与绑定
+  - `名称` 用于指代对象.  名称是通过名称绑定操作来引入的.
+  - `作用域` 定义了一个代码块中名称的可见性.
+- 异常
+
+### 异常
+
+- 错误
+- 异常
+  - 处理异常
+  - 抛出异常
+  - 自定义异常
+  - 定义清理操作/预定义的清理操作
+
+```python
+# 关键字: try catch except finally assert raise
+try:
+  # 用于监听可能出错的代码段，错误发生处后面的代码不再执行。
+  assert	n != 0, 'n is zero'	# 断言
+  raise ValueError('invalid value')	# 手动抛出错误，错误类型支持自定义错误类型
+except Exception as e:
+  logging.exception(e)
+  # 错误发生时才会执行。
+  # 错误也是类型，所有错误类型继承自BaseException，父类错误会把该类错误以及子类错误全部捕捉到。
+finally:
+  # try或except执行完后，最后执行
 ```
 
 
@@ -446,12 +511,20 @@ m = map(func, [1,2,3])
 print(m)				# <map object at ...>
 print(next(m))	# 2
 print(list(m))	# [4,6]	
+```
 
+### 匿名函数
+
+```python
 # 匿名函数
 func = lambda x: x*x
 func(2)	# 4
 map(lambda x:x*x, [1,2,3])
+```
 
+### 装饰器
+
+```python
 # 装饰器
 def log(f):	# decorator
   def wrapper(*args, **kw):
@@ -655,28 +728,18 @@ class Dragon(Runnable, Flyable):
   - `xxx`属于模块公开的变量，其他模块可引入。
   - `__xxx__`属于模块的特殊变量。
 
-# 异常处理
-
-```python
-try:
-  # 用于监听可能出错的代码段，错误发生处后面的代码不再执行。
-  assert	n != 0, 'n is zero'	# 断言
-  raise ValueError('invalid value')	# 手动抛出错误，错误类型支持自定义错误类型
-except Exception as e:
-  logging.exception(e)
-  # 错误发生时才会执行。
-  # 错误也是类型，所有错误类型继承自BaseException，父类错误会把该类错误以及子类错误全部捕捉到。
-finally:
-  # try或except执行完后，最后执行
-```
-
-
-
 # I/O
 
+- 控制台输入输出
 
+- 文件读写 `file object`
+  - 原始二进制文件
+  - 缓冲二进制文件
+  - 文本文件
 
 # 多任务
+
+https://docs.python.org/zh-cn/3/library/concurrency.html
 
 单任务模型：
 
@@ -690,11 +753,11 @@ finally:
 ## 多进程模型
 
 - `mutipleprocess`
-- 多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响。
+- 多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响.
 
 ## 多线程模型
 
-### 单进程多线程模型
+- python中，实际上只能支持的是单进程多线程模型.
 
 - `threading`
 - 多线程中，同一进程下所有变量都由其所有线程共享，故进程内任何一个变量都可以被任何一个线程修改.
@@ -770,6 +833,8 @@ t2.join()
 
 
 # 网络编程
+
+https://docs.python.org/zh-cn/3/library/ipc.html
 
 - TCP
 - UDP
