@@ -47,7 +47,7 @@ python解释器执行流程：`(.py)源文件` ==> `(Cpython)字节码` ==> `机
   - 值可以改变的对象被称为可变的`mutable`；值不可以改变的对象就被称为不可变的`immutable`.
     - 可变对象的内容可变，变量引用没变(id没变). `list, dict, bytearray, set`
     - 不可变对象的内容不可变，修改值本质上是让变量指向一个含有新值的新对象(id变化). `int, boolean, float, string, tuple, bytes, frozenset`
-  - 若对象里包含了对其他对象的引用，此类对象被称为容器`container`. 
+  - 若对象里包含了对其他对象的引用，此类对象被称为容器 `container`. 
 - 变量 `variable`：**变量是对象(内存空间)的引用.**
 
   - python中变量用下划线命名法. 由于python不区分大小写，驼峰命名法不适用.
@@ -199,17 +199,27 @@ a is b	# True
 - `b' '`表示`' '`内部的字符串以字节为单位，每个字符只占1B.
 - **编码问题** `encode()`、`decode()`
   - `ASCII`是1B，`Unicode`通常是2B.
-  - `UTF-8`把一个`Unicode`字符根据不同的数字大小编成1-6B，节约空间，提高传输效率。
-  - 一个中文字符经过utf-8编码后，通常占用3B。
+  - `UTF-8`把一个`Unicode`字符根据不同的数字大小编成1-6B，节约空间，提高传输效率.
+  - 一个中文字符经过utf-8编码后，通常占用3B.
 - **字符串格式化**
-  - `'...%s...%d' % ... `  类似C语言。
+  - `'...%s...%d' % ... `  类似C语言.
     - `%d` 整数
     - `%f` 浮点数
     - `%s` 字符串
     - `%x` 十六进制整数
-  - `str.format()` python3.6-的推荐用法。
-  - `f'...{x}...'` Python3.6+引入，类似字符串模板。
-  - `from string import Template` python标准库。适用于处理用户的输入，保证安全性。
+  - `str.format()` python3.6-的推荐用法.
+  - `f'...{x}...'` Python3.6+引入，类似字符串模板.
+  - `from string import Template` python标准库。适用于处理用户的输入，保证安全性.
+- **正则表达式**
+  - https://docs.python.org/zh-cn/3/library/re.html
+  - https://docs.python.org/zh-cn/3/howto/regex.html#regex-howto
+  - `r'...'` 对于正则模式采用python原始字符串表示法.
+  - 正则表达式 =(编译)=> 正则对象；正则对象.方法；
+    - `. \b \B \d \D \s \S \w \W \A \Z \u \U \N ` 
+    - `^ $` 
+    - `+ * ?` 默认贪婪模式. 可在后面加`?`变为非贪婪模式.
+    - `{} [] ()`
+    - `\` 转义字符.
 
 #### 列表
 
@@ -301,6 +311,13 @@ https://docs.python.org/zh-cn/3/reference/executionmodel.html
   - 代码块在执行帧中被执行. 一个帧会包含某些管理信息（用于调试）并决定代码块执行完成后应前往何处以及如何继续执行.
 - 命名与绑定
   - `名称` 用于指代对象.  名称是通过名称绑定操作来引入的.
+    - 函数传形参
+    - import
+    - 类与函数定义
+    - 以标识符为目标的赋值
+    - for循环的开头
+    - with语句和except子句as之后的
+    - del语句的目标也视为一种绑定，del的实际语义是解除名称绑定。
   - `作用域` 定义了一个代码块中名称的可见性.
 - 异常
 
@@ -333,12 +350,9 @@ finally:
 
 ## 函数
 
-- 函数定义
-  - `return`
-    - 没有写return语句，函数执行完毕后也会返回结果`None`.
-    - `return None`, `return`, `不写明return语句` 同等效用.
-    - 可返回多个值，本质上是返回一个tuple.
-  - 参数
+- 函数定义 `def func():`
+  - 函数名
+  - 参数 `args`
     - 位置参数
     - 默认参数
       - 必选参数在前，默认参数在后.
@@ -348,13 +362,22 @@ finally:
     - 关键字参数 `**kw`：允许传入任意(包括0)个参数，并将关键字参数自动组装为一个dict.
     - 命名关键字参数：允许限制关键字参数的名字.
     - **参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数、关键字参数.**
-  -  `pass`：空函数.
+  - `return`
+    - 没有写return语句，函数执行完毕后也会返回结果`None`.
+    - `return None`, `return`, `不写明return语句` 同等效用.
+    - 可返回多个值，本质上是返回一个tuple.
+  - `pass`：空函数.
   - `yield`：函数中含有yield，则该调用函数时返回一个`generator`.
 - 函数调用 
   - 内置函数(标准库参考-内置函数) https://docs.python.org/3/library/functions.html
+- 命名空间 `namespace`
+  - 内置命名空间 > 全局命名空间 > 局部命名空间(函数>内部函数)
+  - 作用域：函数内的变量不会影响到全局. 
+    - 全局作用域：全局命名空间与内置命名空间的名字属于全局范围，整个文件任意位置可引用.
+    - 局部作用域：局部命名空间，只能在局部范围内生效.
 
 ```python
-# 函数定义
+### 函数定义
 def func(a, b, c=3, d=4):
 	return a, b, c, d
 
@@ -362,14 +385,14 @@ func(1,2) 		# 1,2,3,4
 func(1,2,5)		# 1,2,5,4
 func(1,2,d=5) # 1,2,3,5
 
-# 默认参数
+# Eg1: 默认参数
 def func1(list=[]):
   	list.append('err')
   	return list
 func1() # ['err']
 func1() # ['err', 'err']	默认参数是可变对象，两次调用使用的默认参数是同一个对象。
 
-# 可变参数
+# Eg2: 可变参数
 def func1(list):
 	return list
       
@@ -383,7 +406,7 @@ func2(1,2,3) 		# (1,2,3) 函数接收到的是一个tuple
 func2() 				# ()
 func2(*list)		# (1,2,3)
 
-# 关键字参数
+# Eg3: 关键字参数
 def func1(a, b, **c):	# c是关键字参数
   	print(a, b, c)
 
@@ -414,6 +437,29 @@ kw = {'name':'frank', 'age':24}
 func4(*args1, **kw) # 1 2 0 () {'name': 'frank', 'age': 24}		tuple用*序列化，dict用**序列化
 func4(*args2, **kw) # 1 2 3 (4,) {'name': 'frank', 'age': 24}
 func4(args1,kw) # (1, 2) {'name': 'frank', 'age': 24} 0 () {} 
+
+
+### 作用域
+a = 1
+def func1():
+  b = 2
+  global c
+  c = 3
+  print(globals())
+  print(locals())
+func1()
+# Eg1: 函数嵌套
+z = 'z'
+def func1():
+  y = 'y'
+def func2():
+  x = 'x'
+  def func3():
+    print(x) # 'x'
+    print(y) # nameError
+    print(z) # 'z'
+  func3()
+func2()
 ```
 
 ## 生成器
@@ -458,6 +504,7 @@ for index,val in ['a','b','c']:	# 索引-元素对
 for x, y in [(1, 1), (2, 4), (3, 9)]:	# 同时引用多个变量
   print(x,y)	# (1,1) (2,4) (3,9)
 iter([]) # 把Iterable变成Iterator
+
 
 # 生成器
 l = [x if x % 2 == 0 else -x for x in range(1, 11)]	# 列表推导式
@@ -511,6 +558,19 @@ m = map(func, [1,2,3])
 print(m)				# <map object at ...>
 print(next(m))	# 2
 print(list(m))	# [4,6]	
+```
+
+### 闭包
+
+```python
+def func1():
+	x = 20
+  def inner(): # closure
+    print(x)
+  print(inner.__closure__) # inner is a closure
+  return inner
+f = func1()
+f()
 ```
 
 ### 匿名函数
@@ -717,16 +777,40 @@ class Dragon(Runnable, Flyable):
 
 ## 模块 
 
-- **python中，一个.py文件就是一个模块。**
-- 模块化机制避免了函数名、变量名冲突。
-- 包 `package`：按目录来组织模块。
-  - 每个包下面都会有一个`__init__.py`，这是必须存在的。否则就只是个普通的目录。
-  - 包可以有多级层次，每级都需要有一个`__init__.py`。
-  - 模块命名不要和python自带的模块命冲突。
+`module`
+
+- **python中，一个.py文件就是一个模块`module`.**
+
+- 模块化机制避免了函数名、变量名冲突.
+
+- 模块命名不要和python自带的模块命冲突.
+
 - 作用域
-  - `_xxx`属于模块私有变量，**不应该被其他模块引入**。
-  - `xxx`属于模块公开的变量，其他模块可引入。
-  - `__xxx__`属于模块的特殊变量。
+  - `_xxx`属于模块私有变量，**不应该被其他模块引入**.
+  - `xxx`属于模块公开的变量，其他模块可引入.
+  - `__xxx__`属于模块的特殊变量.
+  
+## 导入系统  
+
+`import`
+
+  - 包 `package`：帮助组织模块并提供名称层次结构. 
+    - 本质上是带有`__path__`属性的模块.
+    - 包可以有多级层次，每级都需要有一个`__init__.py`.
+    - 常规包
+      - 以一个包含 `__init__.py` 文件的目录形式实现.
+      - 当一个常规包被导入时，这个 `__init__.py` 文件会隐式地被执行，它所定义的对象会被绑定到该包命名空间中的名称.
+    - 命名空间包
+
+- 搜索
+- 加载
+
+```python
+import numpy as np	# 绝对导入
+import .a as a	# 相对导入
+```
+
+
 
 # I/O
 
