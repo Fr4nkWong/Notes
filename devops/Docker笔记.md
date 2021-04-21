@@ -79,7 +79,14 @@ $ docker inspect <container_name>
 虚拟机擅长于彻底隔离整个运行环境，而 Docker通常用于隔离不同的应用 。
 <img src='./img/容器&虚拟机对比图.png'  />
 两者也是可以共存的。Eg：硬件系统上装OS，OS上装多个虚拟机，虚拟机上装多个容器...
-<img src='./img/容器&虚拟机对比图1.png'  />
+
+# 安装
+
+1. 安装docker engine.
+2. 按需设置docker用户组，并分配给相应用户.
+3. 
+
+
 
 ## 小结
 

@@ -43,14 +43,13 @@ To make inputs map to right outputs, finding the closest function from hypothesi
   - Sigmoid
   - Tanh
   - ReLU
+  - maxout
 - Ensemble learning
 - Reinforcement learning
 
 
 
 归一化与标准化：https://blog.csdn.net/weixin_36604953/article/details/102652160
-
-
 
 ## 3. Algorithm
 
@@ -65,7 +64,7 @@ To make inputs map to right outputs, finding the closest function from hypothesi
 - Decision tree
 - Naive bayes
 - SVM
-- Perception
+- Multilayer Perception
 - k-NN
 
 ## 5. Deep learning
@@ -74,6 +73,7 @@ Neural Network
 
 - CNN
 - RNN
+- GAN
 
 # References
 

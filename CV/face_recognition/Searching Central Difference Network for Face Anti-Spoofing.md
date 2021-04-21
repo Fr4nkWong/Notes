@@ -1,51 +1,4 @@
-# Face Anti-spoofing 
-
-**Link**
-
-2019CVPR_人脸活体检测：https://zhuanlan.zhihu.com/p/69733383
-
-2019FAS挑战赛：https://zhuanlan.zhihu.com/p/69542283
-
-2020FAS综述：https://zhuanlan.zhihu.com/p/43480539
-
-2020ECCV_人脸技术：https://bbs.cvmart.net/topics/3793
-
-**Paper**
-
-- Exploiting temporal and depth information for multi-frame face anti-spoofifing
-  - Zezheng Wang, Chenxu Zhao*, Yunxiao Qin, Qiusheng Zhou, Guojun Qi,  Jun Wan, Zhen Lei
-  - JD Finance, Huawei Cloud, Chinese Academy of Sciences
-  - https://zhuanlan.zhihu.com/p/114313640
-
-```
-# abstract
-- 先前在深度监督学习上的工作已经证明了用于FAS任务的效果很好，然而它们只考虑了单帧中深度作为辅助监督. 与这些方法不同，作者开发出一种新的方法去从多个RGB帧中估计深度信息，并提出了一种深度监督体系结构，能有效地对时空信息进行编码，用于表示攻击检测.
-- 深度监督体系结构包括2个模块: OFFB和ConvGRU，它们用来提取短期和长期动作去分辨真、假人脸.
-# introduction
-- 为了估计FAS任务中的面部深度，作者提出了对比深度损失(CDLoss, Contrastive Depth Loss)来学习面部点的地形. 
-- 论文主要贡献：1) 分析FAS中的时间深度，寻找FAS中运动和深度中的有用的东西. 2）提出了一种带有OFFB和ConvGRU模块的深度监督体系结构，从单目帧序列的时间信息中揭露面部深度和它们不同的运动模式. 3) 设计出Contrasive Depth Loss去学习用于深度监督面部欺骗的面部点地形. 4) 在广泛使用的人脸反欺骗基准测试上，作者展示了比最先进的方法优越的性能.
-
-# approach
-## depth supervised single-frame architecture
-- depth generation
-	- 用面部深度图去训练单帧网络，从2d平面图中揭示面部定位和脸的3d形状，在真\假人脸的识别中提取有用的信息. 为了区分真、假脸，我们将真脸的深度图规范化在一个[0,1]范围内，同时将假脸的深度图设置为0. 作者采用密集面对准方法PRNet来估计真脸的三维形状，PRNet可用于将完整人脸的3d形状投射到UV空间. 通过该方法可得到了一组表示面部关键点的n个三维坐标的顶点V n×3. 由于这些坐标在映射到二维平面图像时是稀疏的，因此作者插值它们以获得密集的面坐标. 通过将插值坐标映射和归一化到二维平面图像，生成的面部深度图可以表示为D R32x32
-- network structure
-	- CDLoss旨在学习每个像素的地形，这限制了从像素点到其相邻点的对比度.
-```
-
-- *Vec2Face: Unveil Human Faces From Their Blackbox Features in Face Recognition*	CVPR2020
-  - 
-
-```
-- 
-- This paper presents a generative structure with bijective metric learning, DiBiGAN, for synthesizing faces of an identity given that person’s features.
-- A distillation process is introduced to maximize the information exploited from the blackbox face recognition engine.
-- A Feature-Conditional Generator Structure with Exponential Weighting Strategy is presented for a more robust generator that can synthesize realistic faces with ID preservation.
-```
-
-- Searching Central Difference Convolutional Networks for Face Anti-Spoofing	CVPR2020
-  - Zitong Yu, Chenxu Zhao, Zezheng Wang, Yunxiao Qin, Zhuo Su, Xiaobai Li, Feng Zhou, Guoying Zhao*
-  - 奥卢大学，明略科技，Aibee，西工大
+# Interpret
 
 ```
 # Abstract
@@ -131,68 +84,7 @@ NAS: 搜索空间、策略、性能度量.
 	ACER = (APCER+BPCER)/2
 ```
 
+# Related works
 
+# Reference
 
-- Cross-Domain Face Presentation Attack Detection via Multi-Domain Disentangled Representation Learning	CVPR2020
-  - Guoqing Wang, Hu Han, Shiguang Shan, Xilin Chen
-  - 中科院；国科大；鹏城实验室
-
-```
-
-```
-
-
-
-- Deep Spatial Gradient and Temporal Depth Learning for Face Anti-Spoofing	CVPR2020
-  - Zitong Yu, Chenxu Zhao, Zezheng Wang, Yunxiao Qin, Zhuo Su, Xiaobai Li, Feng Zhou, Guoying Zhao
-  - Aibee，奥卢大学，明略科技，中科院，西工大，京东
-
-```
-
-```
-
-
-
-- Single-Side Domain Generalization for Face Anti-Spoofing
-  - Yunpei Jia, Jie Zhang, Shiguang Shan, Xilin Chen
-  - 中科院；国科大
-
-```
-
-```
-
-
-
-- Face X-Ray for More General Face Forgery Detection
-  - Lingzhi Li, Jianmin Bao, Ting Zhang, Hao Yang, Dong Chen, Fang Wen, Baining Guo
-  - 北大；微软亚洲研究院  
-
-```
-
-```
-
-
-
-- DeeperForensics-1.0: A Large-Scale Dataset for Real-World Face Forgery Detection
-  - Liming Jiang, Ren Li, Wayne Wu, Chen Qian, Chen Change Loy
-  - 南洋理工大学，商汤科技
-
-```
-
-```
-
-
-
-- On the Detection of Digital Face Manipulation
-  - Hao Dang, Feng Liu, Joel Stehouwer, Xiaoming Liu, Anil K. Jain
-  - 密歇根州立大学
-
-```
-
-```
-
-
-
-- Global Texture Enhancement for Fake Face Detection in the Wild
-  - Zhengzhe Liu, Xiaojuan Qi, Philip H.S. Torr
-  - 牛津大学；香港大学
