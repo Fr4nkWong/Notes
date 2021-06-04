@@ -10,9 +10,27 @@
 
 **Spoof Trace Disentanglement Network(STDN)**
 
-​		只给定live或spoof二元标签，STDN采取了全面的GAN训练策略. 生成器获取输入，检测欺骗人脸，将spoof trace分离为多个元素的组合. 通过spoof trace，作者从欺骗中重构其live版，并从live版合成新的欺骗图. 为了在合成欺骗时纠正几何上的差异，论文提出了一个新的**3D warping layer**用于将spoof trace变形为目标脸. 作者部署了多尺度鉴别器来提高重建live图和合成欺骗图的保真度. 此外，生成的欺骗样本进一步被用于以有监督的方式训练生成器，这归功于分离的欺骗痕迹作为合成样本的基本事实. 
+​		只给定live或spoof二元标签，STDN采取了全面的GAN训练策略. 生成器(Disentanglement Generator)获取输入，检测欺骗人脸，将spoof trace分离为多个元素的组合**{s,b,C,T}**. 通过spoof trace，spoof图通过运算可得到重构的live图(**Reconstructed Live**). 新的live图可与spoof trace通过运算得到合成的spoof图(**Synthesized Spoof**). 为了在合成spoof图时纠正几何上的差异，论文提出了**3D warping layer**用于将spoof traces变形为目标脸. 作者部署了多尺度的鉴别器(Muti-scale Discriminator)来提高Reconstructed Live和Synthesized Spoof的保真度. 此外，Synthesized Spoof进一步被用于以有监督的方式训练生成器，这归功于分离的欺骗痕迹作为合成样本的基本事实. 
 
-​		本论文不仅要获取正确的预测(live/spoof)，还要获取spoof trace的可靠估计. L-2正则化是spoof trace的首选，因为没有配对的解决方案且我们希望spoof trace是有界的. 基于[24]\[37]，spoof trace可根据比例划分多个元素：global trace、low-level trace和high-level trace. Global trace，如颜色平衡偏差和范围偏差，可以有效地用单个值来建模. 这里的颜色偏差只指欺骗媒介和捕捉相机之间的交互所产生的偏差，预测模型应该忽略那些与欺骗无关的颜色变化. Low-level trace，由平滑的内容模式组成，如化妆、镜面亮点. High-level trace，包括清晰的图案和高频纹理，如掩模边缘和Moir图案. 
+​		该论文不仅要获取正确的预测(live/spoof)，还要获取spoof trace的可靠估计. <u>在训练样本不存在标记出spoof trace的情况下，关键点是找到从输入转移到live域时的最小变化.</u>  L-2正则化是spoof trace的首选，因为没有配对的解决方案且我们希望spoof trace是有界的. 基于[24]\[37]，spoof trace可根据比例划分多个元素：global trace、low-level trace和high-level trace. Global trace，如颜色平衡偏差和范围偏差，可以有效地用单个值来建模. 这里的颜色偏差只指欺骗媒介和捕捉相机之间的交互所产生的偏差，预测模型应该忽略那些与欺骗无关的颜色变化. Low-level trace，由平滑的内容模式组成，如化妆、镜面亮点. High-level trace，包括清晰的图案和高频纹理，如掩模边缘和Moir图案. 
+
+​		分离形势的表示能极大提高分离质量，这种解纠缠表示**spoof trace elements{s, b, C, T}**可以大大提高分离的质量，并抑制其从粗到细的过程中不需要的伪影. 
+
+**Disentanglement Generator**
+
+
+
+**Reconstruction & Synthesis**
+
+​		该论文采用了两种方式来从spoof traces中获益，分别是：Reconstruction和Synthesis. Reconstruction从输入face中获得其对应的live版face，即reconstructed live. Synthesis将之前分离出的spoof traces应用到新的的face上，从而获得一个新的spoof face，即synthesized spoof. 
+
+​		然而Synthesis的过程中，之前从spoof face中分离出的spoof traces和新的live face结合时很可能会出现明显的不合适，因此需要几何校正. 论文中提出3D wraping layer便是用于解决这个问题，它将之前的spoof traces加上**dense offset**得到适应新face的**warped traces**. 为了得到dense offset，作者先拟合3DMM模型去提取spoof face和live face的2D位置，然后得出**sparse offset**，采用 *Delaunay triangulation interpolation*根据sparse offset得到dense offset. 
+
+​		
+
+**Multiscale Discriminator**
+
+
 
 # Related works
 
@@ -26,8 +44,10 @@
 
 ​		Disentanglement learning常用来更好地表示复杂数据和特征. DR-GAN[46]\[47]将人脸分解为身份向量和姿态向量，用于姿态不变的人脸识别和视图合成. 同样，在步态识别中，[53]从输入步态视频中分离出外观、规范和姿势特征的表示. 3D重建工作[28]也将三维人脸的表示分解为身份、表达式、姿势、反照率和照明. 
 
-# Reference
+# References
 
 Moir Pattern: https://blog.csdn.net/vily_lei/article/details/86698473
 
 ground truth: https://www.zhihu.com/question/22464082/answers/updated
+
+upsampling&downsampling: https://blog.csdn.net/majinlei121/article/details/46742339
