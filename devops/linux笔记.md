@@ -4,6 +4,8 @@
 
 linux多用户：https://www.cnblogs.com/lemaden/p/10188848.html
 
+环境变量配置：https://www.cnblogs.com/youyoui/p/10680329.html
+
 
 
 #文件系统
@@ -12,6 +14,7 @@ linux多用户：https://www.cnblogs.com/lemaden/p/10188848.html
 
 - https://blog.51cto.com/u_13452945/2147428
 - https://www.linuxprobe.com/linux-directory.html
+- `ls -l`查看文件属性和文件间关系
 
 ```
 # debian linux 10.8
@@ -54,5 +57,59 @@ linux多用户：https://www.cnblogs.com/lemaden/p/10188848.html
 /sbin 存放超级用户的命令
 ```
 
+# 命令
 
+## 文件目录命令
+
+```shell
+# 显示当前所在目录 print working directory
+pwd
+# 检查文件或目录是否存在
+ls
+# 切换目录 change directory
+cd
+# 创建文件
+touch
+# 创建目录 make directory
+mkdir
+# 查看文件信息
+cat
+# 查看文件开头
+head
+# 查看文件结尾
+tail
+# 统计文件内容信息
+wc
+# 复制 copy
+cp
+# 移动文件 move
+mv
+# 删除文件或目录 remove
+rm
+# 删除目录 remove directory
+rmdir
+# 
+find
+# 
+rename
+# 
+rmdir
+# 打包(不支持压缩)
+tar
+# 压缩
+gzip
+bzip2
+```
+
+## 用户和组命令
+
+```shell
+# 新建用户
+useradd
+# 删除用户
+userdel
+# 
+
+# 
+```
 

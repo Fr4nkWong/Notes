@@ -1,8 +1,10 @@
 # Machine learning
 
-ML method = Algorithm + Strategy + Model(function)
+ML method = {Algorithm} = {Model, Optimization, Strategy, ...}
 
-ML model(application) = ML method + Data
+ML model = Dataset + ML method + Strategy
+
+Strategy = {Regularization, Loss, Prepocessing, Model selection, ...}
 
 ## 1. Model
 
@@ -22,7 +24,7 @@ To make inputs map to right outputs, finding the closest function from hypothesi
   - Centralization\Zero-mean
   - decorrelated data
   - whitened data
-- Loss\Error function: for a single training sample
+- Loss function => error: for a single training sample
   - Mean Square Loss
   - Entropy Loss
 - Cost function: for a total training set
@@ -30,11 +32,12 @@ To make inputs map to right outputs, finding the closest function from hypothesi
 - Model selection
   - Performance ⇒ Model Generalization
     - Accuracy & Error
+    
     - P-R curve: TP, TN, FP, FN
       - Precision
       - Recall
     - AUC curve
-  - Regularization
+- Regularization
     - R_emp → R_exp
     - R_erm = min R_emp
     - R_srm = R_erm + λ*Reg(f)
@@ -43,37 +46,48 @@ To make inputs map to right outputs, finding the closest function from hypothesi
   - Sigmoid
   - Tanh
   - ReLU
-  - maxout
-- Ensemble learning
-- Reinforcement learning
+  - Softplus
+  - Argmax
+  - Softmax
+  - Maxout
 
 
 
 归一化与标准化：https://blog.csdn.net/weixin_36604953/article/details/102652160
 
-## 3. Algorithm
-
-### 3.1 Optimization
+## 3. Optimization
 
 - Gradient descent algo
 - SMO algo
 
 ## 4. ML Method
 
-- Linear regression
-- Decision tree
-- Naive bayes
-- SVM
-- Multilayer Perception
-- k-NN
+**supervised learning**
 
-## 5. Deep learning
+-   Linear regression
+-   Decision tree
+-   Naive bayes
+-   Support Vector Machine(SVM)
+-   k-NN
 
-Neural Network
+**unsupervised learning**
 
-- CNN
-- RNN
-- GAN
+-   
+
+**deep learning**
+
+-   Multi-Layer Perception(MLP)
+-   CNN
+-   RNN
+-   VGG
+-   ResNet
+-   DenseNet
+
+**reinforcement learning**
+
+**ensemble learning**
+
+-   Adaboosting
 
 # References
 

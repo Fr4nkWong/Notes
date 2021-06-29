@@ -166,7 +166,7 @@ floor()报错，需要count()、rand()、group by，三者缺一不可.
 - 前端发送的一个带有name字段的get请求，后端根据此字段的值进行查询并返回结果至页面上，猜测name在数据库里以字符串形式存储
 - 输入`'`，报错提示`)`附近语法错误！故猜测SQL语句为`select 字段名 from 表名 where name = ('?');`
 - 注入方式
-  - `select 字段名 from 表名 where name = ('') or 1 = 1 or 1= ('');`  ') or 1=1 or 1= ('
+  - `select 字段名 from 表名 where name = ('?');` => ` ') or 1=1 or 1= ('`
 
 **5 insert/update注入**
 
@@ -189,19 +189,21 @@ floor()报错，需要count()、rand()、group by，三者缺一不可.
 
 **7 http header注入**
 
-- header注入即server会读取header的内容进行业务操作，如果抓包修改header为可执行代码注入，那么触发安全操作。
+- 业务逻辑：登录表单 => 后台页面展示登录用户的`ip, user agent, http accept, port`
+- 可用单引号测试注入点`'`，发现存在可疑注入点
+- 查看数据库名 `' or updatexml(1, concat(0x7e, database()), 0) or '`
 
 **8 盲注base on boolean**
 
-
+- `select * from member where username = '?';`
 
 **9 盲注base on time**
 
-
+-   
 
 **10 宽字节注入**
 
-
+- `select * from member where username = '?';`
 
 # RCE
 
